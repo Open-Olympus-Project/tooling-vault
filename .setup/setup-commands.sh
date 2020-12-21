@@ -3,13 +3,15 @@
 # After helm deploy
 # Wait for vault pod
 
-#Should run in the pod shell - kubectl -n vault exec -it vault-0 -- /bin/sh
+#Should run in the pod shell - kubectl -n vault exec -it tooling-vault-0 -- /bin/sh
 
-vault operator init -format=json > cluster-keys.json
+kubectl -n vault exec -it tooling-vault-0 -- /bin/sh
 
-vault operator unseal $(cat cluster-keys.json | jq -r ".unseal_keys_b64[0]")
-vault operator unseal $(cat cluster-keys.json | jq -r ".unseal_keys_b64[1]")
-vault operator unseal $(cat cluster-keys.json | jq -r ".unseal_keys_b64[2]")
+kubectl -n vault exec -it tooling-vault-0 -- vault operator init -format=json > cluster-keys.json
+
+kubectl -n vault exec -it tooling-vault-0 -- vault operator unseal $(cat cluster-keys.json | jq -r ".unseal_keys_b64[0]")
+kubectl -n vault exec -it tooling-vault-0 -- vault operator unseal $(cat cluster-keys.json | jq -r ".unseal_keys_b64[1]")
+kubectl -n vault exec -it tooling-vault-0 -- vault operator unseal $(cat cluster-keys.json | jq -r ".unseal_keys_b64[2]")
 
 vault login -no-print=true token=$(cat cluster-keys.json | jq -r ".root_token")
 
@@ -32,3 +34,6 @@ EOF
 vault write auth/kubernetes/role/k8s-secrets bound_service_account_names=argo,argo-server,argocd-server,default bound_service_account_namespaces=argo,argocd policies=k8s-secrets ttl=24h
 
 #Deploy the setup.yml to k8s paralelle to this.
+
+## GET number of vault pods
+kubectl get pods -o=name | grep 'tooling-vault-[0-9]' | wc -l
