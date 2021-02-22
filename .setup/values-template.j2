@@ -14,7 +14,7 @@ server:
     hosts:
       - host: {{ fqdn }}
         paths:
-          - /vault(/|$)(.*)
+          - /
 
     tls: 
     - secretName: vault-tls
