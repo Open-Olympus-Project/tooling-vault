@@ -1,16 +1,9 @@
 server:
-  # extraVolumes:
-  # - type: secret
-  #   name: vault-storage-config
-  #   path: null
-
-  # extraArgs: -config=/vault/userconfig/vault-storage-config/config.hcl
-
   ingress:
     enabled: true
     annotations: 
       kubernetes.io/ingress.class: vault
-      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/cluster-issuer: letsencrypt-prod-vault
     hosts:
       - host: {{ vault_fqdn }}
         paths:
