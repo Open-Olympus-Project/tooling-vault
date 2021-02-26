@@ -9,17 +9,17 @@ server:
   ingress:
     enabled: true
     annotations: 
-      kubernetes.io/ingress.class: nginx
+      kubernetes.io/ingress.class: vault
       cert-manager.io/cluster-issuer: letsencrypt-prod
     hosts:
-      - host: {{ vault-fqdn }}
+      - host: {{ vault_fqdn }}
         paths:
           - /
 
     tls: 
     - secretName: vault-tls
       hosts:
-        - {{ vault-fqdn }}
+        - {{ vault_fqdn }}
 
   standalone:
     enabled: "false"
