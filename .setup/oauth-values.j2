@@ -1,0 +1,36 @@
+vault policy write kv-reader - <<EOF
+	path "k8s/*" {
+			capabilities = ["read", "list"]
+	}
+EOF
+
+vault policy write kv-editor - <<EOF
+	path "k8s/*" {
+			capabilities = ["create", "read", "update", "list"]
+	}
+EOF
+
+vault auth enable oidc;
+
+vault write auth/oidc/config \
+	oidc_discovery_url="https://login.microsoftonline.com/{{ oauth_tenant_id }}/v2.0" \
+	oidc_client_id="{{ oauth_client_id }}" \
+	oidc_client_secret="{{ oauth_vault }}" \
+  default_role="reader";
+
+vault write auth/oidc/role/reader \
+	user_claim="oid" \
+	allowed_redirect_uris="https://{{ vault_fqdn }}/ui/vault/auth/oidc/oidc/callback" \
+	allowed_redirect_uris="http://localhost:8250/oidc/callback" \
+	groups_claims="groups" \
+	policies="kv-reader" \
+	oidc_scopes="openid,profile,email";
+
+
+vault write auth/oidc/role/editor \
+	user_claim="oid" \
+	allowed_redirect_uris="https://{{ vault_fqdn }}/ui/vault/auth/oidc/oidc/callback" \
+	allowed_redirect_uris="http://localhost:8250/oidc/callback" \
+	groups_claims="groups" \
+	policies="kv-editor" \
+	oidc_scopes="openid,profile,email";
