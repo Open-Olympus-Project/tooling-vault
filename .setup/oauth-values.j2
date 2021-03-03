@@ -1,12 +1,12 @@
 vault policy write kv-reader - <<EOF
 	path "k8s/*" {
-			capabilities = ["read", "list"]
+			capabilities = ["list"]
 	}
 EOF
 
 vault policy write kv-editor - <<EOF
 	path "k8s/*" {
-			capabilities = ["create", "read", "update", "list"]
+			capabilities = ["create", "update", "list"]
 	}
 EOF
 
