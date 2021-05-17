@@ -2,9 +2,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Release.Name }}-config-job
+  name: {{ template "vault.fullname" . }}-config-job
   labels:
-    app: {{ .Release.Name }}-config-job
+    app: {{ include "vault.name" . }}-config-job
     chart: {{ .Chart.Name }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
