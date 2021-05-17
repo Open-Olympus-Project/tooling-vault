@@ -3,6 +3,7 @@ initvault:
 
   #The script run in post start
   script: |
+    #!/bin/bash
     echo "This is a post script"
 
 
