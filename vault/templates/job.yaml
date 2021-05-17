@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: vault-config-install
-        image: {{ .Values.server.image.repository }}:{{ .Values.server.image.tag | default "latest" }}
+        image: {{ .Values.initvault.image.repository }}:{{ .Values.initvault.image.tag | default "latest" }}
         imagePullPolicy: IfNotPresent
         command: ["sh", "/tmp/vault-config.sh"]
         volumeMounts:

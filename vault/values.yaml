@@ -2,6 +2,12 @@
 initvault:
   enabled: false
 
+  image:
+    repository: "vault"
+    tag: "1.7.0"
+    # Overrides the default Image Pull Policy
+    pullPolicy: IfNotPresent
+
 # The ldap auth related params
   ldapauth:
     enabled: false
