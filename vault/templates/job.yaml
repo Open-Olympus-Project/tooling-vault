@@ -15,7 +15,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ template "minio.name" . }}-job
+        app: {{ .Release.Name }}-config-job
         release: {{ .Release.Name }}
 {{- if .Values.autoconfig.job.podLabels }}
 {{ toYaml .Values.autoconfig.job.podLabels | indent 8 }}
