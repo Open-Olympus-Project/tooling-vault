@@ -1,46 +1,30 @@
-{{- if .Values.autoconfig.enabled}}
+{{- if .Values.initvault.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ template "vault.fullname" . }}-config-job
-  labels:
-    app: {{ include "vault.name" . }}-config-job
-    chart: {{ .Chart.Name }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+  name: vault-config-job
   annotations:
-    "helm.sh/hook": pre-install,pre-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
+    "helm.sh/hook": "post-install"
 spec:
   template:
-    metadata:
-      labels:
-        app: {{ .Release.Name }}-config-job
-        release: {{ .Release.Name }}
-{{- if .Values.autoconfig.job.podLabels }}
-{{ toYaml .Values.autoconfig.job.podLabels | indent 8 }}
-{{- end }}
-{{- if .Values.autoconfig.job.podAnnotations }}
-      annotations:
-{{ toYaml .Values.autoconfig.job.podAnnotations | indent 8 }}
-{{- end }}
     spec:
-      restartPolicy: OnFailure
-      volumes:
-        - name: init-secrets
-          secret:
-            secretName: {{ template "vault.fullname" . }}-job-secret
       containers:
-      - name: vault-init-job
-        image: hashicorp/vault
-        command:
-          - "/bin/sh"
-          - "-c"
-        args:
-          - >
-            echo "this is a job!"
-            while true do; sleep 100; done;
+      - name: vault-config-install
+        image: {{ .Values.server.image.repository }}:{{ .Values.server.image.tag | default "latest" }}
+        imagePullPolicy: IfNotPresent
+        command: ["sh", "/tmp/vault-config.sh"]
         volumeMounts:
-          - name: init-secrets
-            mountPath: /secrets
-{{- end }}
+        - name: vault-config-sh
+          mountPath: /tmp/vault-config.sh
+          subPath: vault-config.sh
+      restartPolicy: OnFailure
+      terminationGracePeriodSeconds: 0
+      volumes:
+      - name: vault-config-sh
+        configMap:
+          name: vault-config-sh
+          defaultMode: 0777
+  backoffLimit: 5
+  completions: 1
+  parallelism: 1
+  {{- end }} 

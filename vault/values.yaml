@@ -1,10 +1,30 @@
-autoconfig:
-  enabled: true
+# This will run helm post-install hook to init the vault
+initvault:
+  enabled: false
 
-  job:
-    podLabels:
+# The ldap auth related params
+  ldapauth:
+    enabled: false
+    ldap_url: "ldap://"
+    userattr: ""
+    userdn: ""
+    groupdn: ""
+    upndomain: ""
 
-    podAnnotations:
+# The GitHub auth related params
+  githubauth:
+    enabled: false
+    organization: ""
+
+# The Kubernetes auth related params
+  k8sauth:
+    enabled: false
+    token_reviewer_jwt: ""
+    kubernetes_host: ""
+    kubernetes_ca_cert: ""
+
+# More Auth can be added here as per reqiurement
+
 
 vault:
   # Available parameters and their default values for the Vault chart.
