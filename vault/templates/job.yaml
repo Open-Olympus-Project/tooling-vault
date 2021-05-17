@@ -1,0 +1,46 @@
+{{- if .Values.autoconfig.enabled}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-config-job
+  labels:
+    app: {{ .Release.Name }}-config-job
+    chart: {{ .Chart.Name }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ template "minio.name" . }}-job
+        release: {{ .Release.Name }}
+{{- if .Values.autoconfig.job.podLabels }}
+{{ toYaml .Values.autoconfig.job.podLabels | indent 8 }}
+{{- end }}
+{{- if .Values.autoconfig.job.podAnnotations }}
+      annotations:
+{{ toYaml .Values.autoconfig.job.podAnnotations | indent 8 }}
+{{- end }}
+    spec:
+      restartPolicy: OnFailure
+      volumes:
+        - name: init-secrets
+          secret:
+            secretName: {{ .Release.name }}-job-secret
+      containers:
+      - name: vault-init-job
+        image: hashicorp/vault
+        command:
+          - "/bin/sh"
+          - "-c"
+				args:
+          - >
+            echo "this is a job!"
+						while true do; sleep 100; done;
+        volumeMounts:
+          - name: init-secrets
+            mountPath: /secrets
+{{- end }}

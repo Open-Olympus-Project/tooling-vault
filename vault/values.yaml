@@ -1,3 +1,11 @@
+autoconfig:
+  enabled: true
+
+  job:
+    podLabels:
+
+    podAnnotations:
+
 vault:
   # Available parameters and their default values for the Vault chart.
 
