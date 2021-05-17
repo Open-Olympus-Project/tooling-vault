@@ -29,7 +29,7 @@ spec:
       volumes:
         - name: init-secrets
           secret:
-            secretName: {{ .Release.name }}-job-secret
+            secretName: {{ template "vault.fullname" . }}-job-secret
       containers:
       - name: vault-init-job
         image: hashicorp/vault
