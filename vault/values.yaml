@@ -383,7 +383,7 @@ vault:
     volumes:
     - name: vault-config-sh
       configMap:
-        name: init-script
+        name: vault-config-sh
     #   - name: plugins
     #     emptyDir: {}
 
@@ -391,7 +391,7 @@ vault:
     # via toYaml rather than pre-processed like the extraVolumes value.
     # The purpose is to make it easy to share volumes between containers.
     volumeMounts:
-    - name: init-script
+    - name: vault-config-sh
       mountPath: /initscript
       readOnly: true
     #   - mountPath: /usr/local/libexec/vault
