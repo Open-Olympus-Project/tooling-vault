@@ -2,9 +2,10 @@
 initvault:
 
   #The script run in post start
-  script: |
-    #!/bin/bash
-    echo "This is a post script"
+  script:
+    script.sh: |
+      #!/bin/bash
+      echo "This is a post script"
 
 
 vault:

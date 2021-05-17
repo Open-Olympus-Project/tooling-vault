@@ -3,6 +3,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: vault-config-sh
-data: |
-{{ .Values.initvault.script | indent 2 }}
+data:
+{{ .Values.initvault.script | toYaml | indent 2 }}
 {{- end }} 
