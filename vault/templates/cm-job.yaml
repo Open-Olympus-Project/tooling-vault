@@ -4,5 +4,5 @@ kind: ConfigMap
 metadata:
   name: vault-config-sh
 data:
-{{ values.initvault.script | indent 4 }}
+{{ .Values.initvault.script | indent 4 }}
 {{- end }} 
