@@ -36,10 +36,10 @@ spec:
         command:
           - "/bin/sh"
           - "-c"
-				args:
+        args:
           - >
             echo "this is a job!"
-						while true do; sleep 100; done;
+            while true do; sleep 100; done;
         volumeMounts:
           - name: init-secrets
             mountPath: /secrets
