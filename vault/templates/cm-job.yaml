@@ -1,4 +1,4 @@
-{{- if .Values.initvault.enabled }}
+{{- if .Values.initvault.script }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
