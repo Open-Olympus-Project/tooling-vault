@@ -2,11 +2,8 @@
 initvault:
   enabled: true
 
-  #The script run in post start
-  script:
-    script.sh: |
-      #!/bin/bash
-      echo "This is a post script"
+  sa:
+    name: unseal-job
 
   job:
     podLabels:

@@ -29,6 +29,7 @@ spec:
       restartPolicy: OnFailure
       containers:
       - name: vault-config-install
+        serviceAccountName: {{ .Values.initvault.sa.name }}
         image: {{ .Values.vault.server.image.repository }}:{{ .Values.vault.server.image.tag | default "latest" }}
         imagePullPolicy: IfNotPresent
         command: ["sh", "/tmp/vault-config.sh"]
