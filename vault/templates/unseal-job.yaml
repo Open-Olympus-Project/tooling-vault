@@ -34,8 +34,7 @@ spec:
         command: ["/bin/sh", "-c"]
         args: 
           - |
-            cat /tmp/script.sh
-            
+            /tmp/script.sh
         volumeMounts:
         - name: vault-config-sh
           mountPath: /tmp/
