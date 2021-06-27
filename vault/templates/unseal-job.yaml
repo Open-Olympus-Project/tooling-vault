@@ -34,7 +34,11 @@ spec:
         command: ["sh", "/tmp/vault-config.sh"]
         volumeMounts:
         - name: vault-config-sh
-          mountPath: /tmp/
+          mountPath: /tmp/vault-config.sh
+          subPath: vault-config.sh
+        env:
+        - name: VAULT_ADDR
+          value: http://vault.tooling.svc:8200
       restartPolicy: OnFailure
       terminationGracePeriodSeconds: 0
       volumes:
