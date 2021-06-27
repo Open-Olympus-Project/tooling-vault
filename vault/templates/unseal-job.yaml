@@ -34,7 +34,7 @@ spec:
         command: ["/bin/sh", "/tmp/vault-config.sh"]
         args: 
           - |
-          while true; do sleep 10; done; 
+            while true; do sleep 10; done; 
         volumeMounts:
         - name: vault-config-sh
           mountPath: /tmp/vault-config.sh
