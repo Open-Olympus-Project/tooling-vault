@@ -10,7 +10,7 @@ metadata:
     heritage: {{ .Release.Service }}
   name: vault-config-job
   annotations:
-    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook": "post-install"
     # "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
 spec:
   template:
