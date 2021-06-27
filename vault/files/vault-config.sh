@@ -44,16 +44,17 @@ do
 		then
 			exit 70;
 		fi
-		sleep 5;
+		sleep 15;
 	fi
 	for j in `seq 0 2`;
 	do
 		echo "Unsealing vault-$i";
-		if ! vault operator unseal $(cat cluster-keys.json | jq -r ".unseal_keys_b64[$j]");
+		if vault operator unseal $(cat cluster-keys.json | jq -r ".unseal_keys_b64[$j]");
 		then 
+			sleep 10;
+		else
 			exit 71;
 		fi
-		sleep 5;
 	done
 	sleep 10;
 done
