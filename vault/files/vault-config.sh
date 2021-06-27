@@ -44,7 +44,7 @@ do
 		then
 			exit 70;
 		fi
-		sleep 15;
+		sleep 5;
 	fi
 	for j in `seq 0 2`;
 	do
