@@ -392,7 +392,6 @@ vault:
     volumeMounts:
     - name: vault-config-sh
       mountPath: /initscript
-      readOnly: true
     #   - mountPath: /usr/local/libexec/vault
     #     name: plugins
     #     readOnly: true
