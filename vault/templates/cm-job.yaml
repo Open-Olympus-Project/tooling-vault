@@ -1,8 +1,8 @@
-{{- if .Values.initvault.script }}
+{{- if .Values.initvault.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: vault-config-sh
 data:
-{{ .Values.initvault.script | toYaml | indent 2 }}
-{{- end }} 
+{{ (tpl (.Files.Glob "files/vault-config.sh").AsConfig . ) | indent 4 }}
+{{- end }}
