@@ -27,7 +27,7 @@ spec:
 {{- end }}
     spec:
       restartPolicy: OnFailure
-      serviceAccountName: {{ .Values.initvault.sa.name }}
+      serviceAccountName: {{ .Values.initvault.sa.name }}-sa
       containers:
       - name: vault-config-install
         image: {{ .Values.vault.server.image.repository }}:{{ .Values.vault.server.image.tag | default "latest" }}
