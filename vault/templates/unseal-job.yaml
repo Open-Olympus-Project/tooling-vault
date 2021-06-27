@@ -31,7 +31,11 @@ spec:
       - name: vault-config-install
         image: {{ .Values.vault.server.image.repository }}:{{ .Values.vault.server.image.tag | default "latest" }}
         imagePullPolicy: IfNotPresent
-        command: ["/bin/sh", "-c cat /tmp/script.sh "]
+        command: ["/bin/sh", "-c"]
+        args: 
+          - |
+            cat /tmp/script.sh
+            
         volumeMounts:
         - name: vault-config-sh
           mountPath: /tmp/
