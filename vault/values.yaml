@@ -1,5 +1,6 @@
 # This will run helm post-install hook to init the vault
 initvault:
+  enabled: true
 
   #The script run in post start
   script:
