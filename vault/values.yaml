@@ -351,7 +351,7 @@ vault:
     postStart:
     - /bin/sh
     - -c
-    - /initscript/script.sh
+    - /vault/initscript
 
     # extraEnvironmentVars is a list of extra environment variables to set with the stateful set. These could be
     # used to include variables required for auto-unseal.
@@ -391,7 +391,7 @@ vault:
     # The purpose is to make it easy to share volumes between containers.
     volumeMounts:
     - name: vault-config-sh
-      mountPath: /initscript
+      mountPath: /vault/initscript
     #   - mountPath: /usr/local/libexec/vault
     #     name: plugins
     #     readOnly: true
