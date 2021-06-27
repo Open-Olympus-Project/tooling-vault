@@ -14,7 +14,6 @@ metadata:
     # "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
 spec:
   template:
-    serviceAccountName: {{ .Values.initvault.sa.name }}
     metadata:
       labels:
         app: {{ .Release.Name }}-config-job
@@ -28,6 +27,7 @@ spec:
 {{- end }}
     spec:
       restartPolicy: OnFailure
+      serviceAccountName: {{ .Values.initvault.sa.name }}
       containers:
       - name: vault-config-install
         image: {{ .Values.vault.server.image.repository }}:{{ .Values.vault.server.image.tag | default "latest" }}
