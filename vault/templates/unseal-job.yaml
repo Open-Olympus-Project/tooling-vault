@@ -38,8 +38,8 @@ spec:
             /tmp/vault-config.sh 
         volumeMounts:
         - name: vault-config-sh
-          mountPath: /tmp/vault-config.sh
-          subPath: vault-config.sh
+          mountPath: /tmp
+          subpath: /tmp
       restartPolicy: OnFailure
       terminationGracePeriodSeconds: 0
       volumes:
