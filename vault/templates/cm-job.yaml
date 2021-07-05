@@ -3,6 +3,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: vault-config-sh
+  annotations:
+    "helm.sh/hook": "post-install"
+    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
 data:
 {{ (tpl (.Files.Glob "files/vault-config.sh").AsConfig . ) | indent 4 }}
 {{- end }}
