@@ -58,3 +58,5 @@ do
 	done
 	sleep 10;
 done
+
+cat cluster-keys.json
