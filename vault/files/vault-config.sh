@@ -98,10 +98,7 @@ SA_CA_CRT=$(wget -vO- -nv --ca-certificate /var/run/secrets/kubernetes.io/servic
 echo "Configuring auth path"
 vault write auth/$authMethodName/config token_reviewer_jwt="$SA_JWT_TOKEN" kubernetes_host="https://kubernetes.default:443" kubernetes_ca_cert="$SA_CA_CRT"
 
-echo "Putting the root_token into the vault"
-vault kv put k8s/secrets/vault root_token=$root_token;
-
-echo "Putting the cluster_keys into the vault"
-vault kv put k8s/secrets/vault cluster_keys="$(cat cluster-keys.json)";
+echo "Putting the root_token and cluster_key.json into the vault"
+vault kv put k8s/secrets/vault root_token=$root_token cluster_keys="$(cat cluster-keys.json)";
 
 while true; do sleep 10; done;
