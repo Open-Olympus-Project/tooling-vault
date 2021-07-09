@@ -101,4 +101,4 @@ vault write auth/$authMethodName/config token_reviewer_jwt="$SA_JWT_TOKEN" kuber
 echo "Putting the root_token and cluster_key.json into the vault"
 vault kv put k8s/secrets/vault root_token=$root_token cluster_keys="$(cat cluster-keys.json)";
 
-while true; do sleep 10; done;
+cat cluster_keys.json
