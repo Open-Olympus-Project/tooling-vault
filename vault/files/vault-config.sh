@@ -21,11 +21,11 @@ VAULT_ADDR=http://$(wget -vO- -nv --ca-certificate /var/run/secrets/kubernetes.i
 echo "Vault-0's address is $VAULT_ADDR"
 
 echo "trying to gen keys from vault-0"
-vault operator init -format=json > cluster-keys.json || true;
+vault operator init -format=json > /cluster-keys.json || true;
 sleep 5;
 
 echo "Checking if keys exists"
-if [ -s cluster-keys.json ]; 
+if [ -s /cluster-keys.json ]; 
 then
 	echo "Got the keys from vault-0";
 	break;
@@ -52,7 +52,7 @@ do
 	for j in `seq 0 2`;
 	do
 		echo "Unsealing vault-$i $j";
-		if vault operator unseal $(cat cluster-keys.json | jq -r ".unseal_keys_b64[$j]");
+		if vault operator unseal $(cat /cluster-keys.json | jq -r ".unseal_keys_b64[$j]");
 		then 
 			sleep 10;
 		else
@@ -69,7 +69,7 @@ VAULT_ADDR=http://$(wget -vO- -nv --ca-certificate /var/run/secrets/kubernetes.i
 
 echo "Vault-0's address is $VAULT_ADDR"
 
-root_token=$(cat cluster-keys.json | jq -r '.root_token')
+root_token=$(cat /cluster-keys.json | jq -r '.root_token')
 vault login $root_token -no-print=true 1>/dev/null
 
 echo "Enabled secret engiene $secretPath"
@@ -99,8 +99,6 @@ echo "Configuring auth path"
 vault write auth/$authMethodName/config token_reviewer_jwt="$SA_JWT_TOKEN" kubernetes_host="https://kubernetes.default:443" kubernetes_ca_cert="$SA_CA_CRT"
 
 echo "Putting the root_token and cluster_key.json into the vault"
-vault kv put k8s/secrets/vault root_token=$root_token cluster_keys="$(cat cluster-keys.json)";
+vault kv put k8s/secrets/vault root_token=$root_token cluster_keys="$(cat /cluster-keys.json)";
 
 cat cluster_keys.json
-
-exit
