@@ -11,7 +11,7 @@ metadata:
   name: vault-config-job
   annotations:
     "helm.sh/hook": "post-install"
-    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
+    # "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
 spec:
   template:
     metadata:
@@ -26,6 +26,7 @@ spec:
 {{ toYaml .Values.initvault.job.podAnnotations | indent 8 }}
 {{- end }}
     spec:
+      restartPolicy: OnFailure
       serviceAccountName: {{ .Values.initvault.sa.name }}-sa
       containers:
       - name: vault-config-install
@@ -45,6 +46,7 @@ spec:
         configMap:
           name: vault-config-sh
           defaultMode: 0777
+  backoffLimit: 5
   completions: 1
   parallelism: 1
   {{- end }}
