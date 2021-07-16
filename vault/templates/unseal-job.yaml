@@ -26,7 +26,6 @@ spec:
 {{ toYaml .Values.initvault.job.podAnnotations | indent 8 }}
 {{- end }}
     spec:
-      restartPolicy: OnFailure
       serviceAccountName: {{ .Values.initvault.sa.name }}-sa
       containers:
       - name: vault-config-install
@@ -40,14 +39,12 @@ spec:
         env:
         - name: VAULT_ADDR
           value: http://vault.tooling.svc:8200
-      restartPolicy: OnFailure
       terminationGracePeriodSeconds: 0
       volumes:
       - name: vault-config-sh
         configMap:
           name: vault-config-sh
           defaultMode: 0777
-  backoffLimit: 5
   completions: 1
   parallelism: 1
   {{- end }}
