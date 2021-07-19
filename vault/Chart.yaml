@@ -20,4 +20,4 @@ version: 0.0.1
 dependencies:
 - name: vault
   version: "0.13.0"
-  repository: "https://helm.releases.hashicorp.com" 
+  repository: "https://helm.releases.hashicorp.com"
