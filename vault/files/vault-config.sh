@@ -86,7 +86,7 @@ path "$secretPath/*" {
 EOF
 
 echo "Creating role for $secretPath"
-vault write auth/$authMethodName/role/$secretPath-secrets bound_service_account_names=tooling-prometheus-server,argo,argo-server,argocd-server,default bound_service_account_namespaces=monitoring,argo,argocd policies=$secretPath-secrets ttl=24h;
+vault write auth/$authMethodName/role/$secretPath-secrets bound_service_account_names=default bound_service_account_namespaces=monitoring,tooling policies=$secretPath-secrets ttl=24h;
 
 echo "Fetching vault sa secret name"
 VAULT_SA_SECRET_NAME=$(wget -vO- -nv --ca-certificate /var/run/secrets/kubernetes.io/serviceaccount/ca.crt --header "Authorization: Bearer $KUBE_TOKEN" https://kubernetes.default/api/v1/namespaces/$namespace/serviceaccounts/vault | jq -r -e '.secrets[] | select(.name | test("vault-token")) | .name');
