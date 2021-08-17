@@ -24,6 +24,8 @@ echo "trying to gen keys from vault-0"
 vault operator init -format=json > /cluster-keys.json || true;
 sleep 5;
 
+#TODO There should be a way to check if the vault has been initialized.
+
 echo "Checking if keys exists"
 if [ -s /cluster-keys.json ]; 
 then
